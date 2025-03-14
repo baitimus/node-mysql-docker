@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mysql:
+    image: mysql/mysql-server:8.0
+    container_name: my-mysql2
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: my_database
+    ports:
+      - "3307:3306"
+    networks:
+      - app-network
+
+  node:
+    build: .
+    container_name: my-node-container
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app  # Mount the current directory to /usr/src/app in the container
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
