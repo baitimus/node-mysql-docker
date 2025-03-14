@@ -1,15 +1,20 @@
 version: '3'
+
 services:
   mysql:
     image: mysql/mysql-server:8.0
-    container_name: my-mysql2
+    container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: my_database
+      MYSQL_USER: phpmyadmin
+      MYSQL_PASSWORD: phpmyadminpassword
+      MYSQL_ROOT_HOST: '%'
     ports:
       - "3307:3306"
     networks:
       - app-network
+    command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0
 
   node:
     build: .
@@ -17,11 +22,13 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .:/usr/src/app  # Mount the current directory to /usr/src/app in the container
+      - .:/usr/src/app
     depends_on:
       - mysql
     networks:
       - app-network
+
+  
 
 networks:
   app-network:

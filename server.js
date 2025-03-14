@@ -5,7 +5,10 @@ const mysql = require('mysql2');
 const app = express();
 const port = 3000;
 
-// MySQL connection configuration
+// MySQL connection configuration 
+//docker-compose down -v
+//docker-compose up --build -d
+
 const connection = mysql.createConnection({
   host: 'mysql',           // MySQL container name (Docker Compose service)
   user: 'root',            // MySQL user
@@ -25,8 +28,10 @@ connection.connect((err) => {
 
 //create default api message
 app.get('/', (req, res) => {
-  res.send('Hel32dasdad131221lo World!');
-});
+  res.send('this is the test for my api');
+
+
+  });
 
 // Start the server
 app.listen(port, () => {
